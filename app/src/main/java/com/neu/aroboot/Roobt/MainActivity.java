@@ -208,12 +208,8 @@ public class MainActivity extends Activity implements OnClickListener{
 
                 // 显示
                 ((EditText)findViewById(R.id.isr_text)).setText(text);
-                byte[] bytes =  Code.hexStringToBytes(Agreement.RUN_UP);  //前进
-                try {
-                    sDriver.write(bytes,500);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                sendToUart(text);
+
             } else {
                 Log.d(TAG, "recognizer result : null");
             }
@@ -248,6 +244,32 @@ public class MainActivity extends Activity implements OnClickListener{
 
     };
 
+
+    /**
+     * 识别语音后判断，并发送指令
+     * @param message
+     */
+    private void sendToUart(String message){
+        byte[] bytes = new byte[0];
+        if (message.contains("前进")){  //前进
+            bytes =   Code.hexStringToBytes(Agreement.RUN_UP);  //前进
+        }
+        if (message.contains("后退")){
+            bytes = Code.hexStringToBytes(Agreement.RUN_DOWN);
+        }
+        if (message.contains("左转")){
+            bytes = Code.hexStringToBytes(Agreement.RUN_LEFT);
+        }
+        if (message.contains("右转")){
+            bytes = Code.hexStringToBytes(Agreement.RUN_RIGHT);
+        }
+
+        try {
+            sDriver.write(bytes,500);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     private void showTip(final String str) {
@@ -344,8 +366,8 @@ public class MainActivity extends Activity implements OnClickListener{
     /**
      * Starts the activity, using the supplied driver instance.
      *
-     * @param context
-     * @param driver
+     * @param context context
+     * @param driver 驱动
      */
     public static void show(Context context, UsbSerialDriver driver) {
         sDriver = driver;
