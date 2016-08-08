@@ -23,6 +23,7 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
 
 import com.iflytek.sunflower.FlowerCollector;
+import com.neu.aroboot.Agreement.Agreement;
 import com.neu.aroboot.R;
 import com.neu.aroboot.util.ApkInstaller;
 import com.neu.aroboot.util.Code;
@@ -207,7 +208,7 @@ public class MainActivity extends Activity implements OnClickListener{
 
                 // 显示
                 ((EditText)findViewById(R.id.isr_text)).setText(text);
-                byte[] bytes =  Code.hexStringToBytes("AA000001");
+                byte[] bytes =  Code.hexStringToBytes(Agreement.RUN_UP);  //前进
                 try {
                     sDriver.write(bytes,500);
                 } catch (IOException e) {
